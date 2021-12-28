@@ -15,7 +15,7 @@ int main() {
 
     cout << "Tong cac so khong am cua mang la: " << KhongAm(n, list) << endl;
 
-    //Phần này em không biết là vị trí chẵn theo thực tế (vị trí thứ hai: list[3], vị trí thứ tư: list[5],...) hay vị trí chẵn theo C++ (list[0], list[2],...)
+    //Phần này em không biết là vị trí chẵn theo thực tế (vị trí thứ hai: list[1], vị trí thứ tư: list[3],...) hay vị trí chẵn theo C++ (list[2], list[4],...)
     //Nên cho phép em được làm vị trí chẵn theo C++ nha thầy, nếu thầy yêu cầu vị trí chẵn theo thực tế thì thầy châm chước cho em vì em không biết
     cout << "Tong cac phan tu tai vi tri chan cua mang la: " << ViTriChan(n, list) << endl;
 

@@ -1,4 +1,5 @@
 #inclue "MyFunctions.h"
+#include <math.h>
 
 void nhapSoDuong_1(int &n) {
 	cout << "Nhap so duong n: "; cin >> n;
