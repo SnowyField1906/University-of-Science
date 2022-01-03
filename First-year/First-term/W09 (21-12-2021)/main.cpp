@@ -1,4 +1,4 @@
-#include<iostream>
+#include <iostream>
 #include "MyFunctions.h"
 
 using namespace std;
@@ -8,8 +8,8 @@ int main() {
     int n;
     int list[100];
 
-    cout << "Nhap vao so ki tu cua mang: "; NhapMang(n, list) << endl;
-    cout << "Cac gia tri cua mang la: "; XuatMang(n, list) << endl;
+    cout << "Nhap vao so ki tu cua mang: " << NhapMang(n, list) << endl;
+    cout << "Cac gia tri cua mang la: " << XuatMang(n, list) << endl;
 
     cout << "Gia tri lon nhat cua mang la: " << Max(n, list) << endl;
 
