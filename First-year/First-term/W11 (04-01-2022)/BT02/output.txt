@@ -1,0 +1,5 @@
+ID          : 21120566
+Full Name   : Thuan Nguyen Huu
+GPA         : 4.0
+Address     : Gia Lai, Viet Nam
+Day of birth: 2003/12/18
