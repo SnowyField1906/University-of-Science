@@ -1,7 +1,6 @@
 #ifndef MyFunctions_h
 #define MyFunctions_h
 
-
 void NhapMang(int &n, int list[]);
 
 void XuatMang(int &n, int list[]);

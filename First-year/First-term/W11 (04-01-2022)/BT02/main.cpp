@@ -2,7 +2,7 @@
 #include <string>
 #include <sstream>
 #include <ctime>
-#include<fstream>
+#include <fstream>
 using namespace std;
 
 struct Student {
@@ -194,23 +194,6 @@ int main() {
 
     FileIn.close();
     FileOut.close();
-
-    // ifstream ifs;
-    // ifs.open("input2.txt",ios_base::in);
-    // if (ifs.fail() == true)
-    //     {
-    //         cout <<"File not opened yet!" << endl;
-    //         return 0;
-    //     }
-    // cout <<"File opened successfully!" << endl;
-    // Student x;
-    // inputStudentByFile(x,ifs);
-    // Student y;
-    // inputStudentByFile(y,ifs);
-    // ofstream ofs;
-    // ofs.open("output2.txt",ios_base::out);
-    // ofs.close();
-    // ifs.close();
 
     return 0;
 }
