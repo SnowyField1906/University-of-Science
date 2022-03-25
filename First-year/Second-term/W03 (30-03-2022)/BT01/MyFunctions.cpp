@@ -1,13 +1,14 @@
 #include <iostream>
 #include <string>
+#include "MyFunctions.h"
+
 using namespace std;
 
-
 struct ABook {
-    char id[7];
-    char name[50];
-    char author[50];
-    char publisher[50];
+    char id[8];
+    char name[51];
+    char author[51];
+    char publisher[51];
     long price;
     int page;
     int year;
@@ -15,31 +16,36 @@ struct ABook {
 
 struct Books {
     int n;
-    ABook *abook;
+    ABook* abook;
 };
 
 
-///////////// CÃ‚U 1 /////////////
+///////////// CÂU 1 /////////////
 
-void InputABook(ABook &abook) {
-    cout << "\tInput the book's ID: ";
-    cin >> abook.id; fflush(stdin);
-    cout << "\tInput the book's name: ";
-    cin.getline(abook.name, 50); fflush(stdin);
-    cout << "\tInput the book's author: ";
-    cin.getline(abook.author, 50); fflush(stdin);
-    cout << "\tInput the book's publisher: ";
-    cin >> abook.publisher; fflush(stdin);
-    cout << "\tInput the book's price: ";
-    cin >> abook.price;
-    cout << "\tInput the book's page: ";
-    cin >> abook.page;
-    cout << "\tInput the book's year: ";
-    cin >> abook.year;
+void InputABook(ABook& abook) {
+    cin.ignore();
+    cout << "\tInput the book's ID: "; cin.getline(abook.id, 8);
+    cout << "\tInput the book's name: "; cin.getline(abook.name, 51); cout << "\tInput the book's author: "; cin.getline(abook.author, 51);
+    cout << "\tInput the book's publisher: "; cin.getline(abook.publisher, 51);
+    cout << "\tInput the book's price: "; cin >> abook.price;
+    cout << "\tInput the book's page: "; cin >> abook.page;
+    cout << "\tInput the book's year: "; cin >> abook.year;
     cout << endl;
+
+    bool space = false;
+    for (int i = 0; i < strlen(abook.id); i++) {
+        if (abook.id[i] == ' ') {
+            space = true;
+            break;
+        }
+    }
+    if (space) {
+        cout << "Wrong input, please input again" << endl << endl;
+        InputABook(abook);
+    }
 }
 
-void InputBooks(Books &books) {
+void InputBooks(Books& books) {
     for (int i = 0; i < books.n; i++) {
         cout << "BOOK " << i + 1 << ": " << endl;
         InputABook(books.abook[i]);
@@ -47,7 +53,7 @@ void InputBooks(Books &books) {
 }
 
 
-///////////// CÃ‚U 2 /////////////
+///////////// CÂU 2 /////////////
 
 void OutputABook(ABook abook) {
     cout << "\tThe book's ID: " << abook.id << endl;
@@ -67,9 +73,9 @@ void OutputBooks(Books books) {
 }
 
 
-///////////// CÃ‚U 3 /////////////
+///////////// CÂU 3 /////////////
 
-void Sort(Books &books) {
+void Sort(Books& books) {
     for (int i = books.n - 1; i >= 1; i--) {
         for (int j = 0; j <= i - 1; j++) {
             if (books.abook[j].year > books.abook[j + 1].year) {
@@ -77,15 +83,15 @@ void Sort(Books &books) {
             }
         }
     }
-}
+}   
 
 
-///////////// CÃ‚U 4 /////////////
+///////////// CÂU 4 /////////////
 
 void Find(Books books) {
-    int k;
+    int limit;
     cout << "Input the limit: ";
-    cin >> k;
+    cin >> limit;
     cout << endl;
 
     for (int i = books.n - 1; i >= 1; i--) {
@@ -95,24 +101,32 @@ void Find(Books books) {
             }
         }
     }
+    bool flag = true;
     for (int i = 0; i < books.n; i++) {
-        if (books.abook[i].page < k) {
+        if (books.abook[i].page < limit) {
             OutputABook(books.abook[i]);
+            flag = false;
             break;
         }
+    }
+    if (flag) {
+        cout << "There is no book having less than " << limit << " page(s)!" << endl;
     }
 
     Sort(books);
 }
 
 
-///////////// CÃ‚U 5 /////////////
+///////////// CÂU 5 /////////////
 
-void Add(Books &books) {
+void Add(Books& books) {
     int index;
-    cout << "Input the index: ";
-    cin >> index;
-    cout >> endl;
+    cout << "Input the index: "; cin >> index;
+    while (index < 1 || index > books.n) {
+        cout << endl << "Wrong index, please input again!" << endl << endl;
+        cout << "Input the index: "; cin >> index;
+    }
+    cout << endl;
 
     Books newbooks;
     newbooks.abook = new ABook[books.n + 1];
@@ -123,19 +137,19 @@ void Add(Books &books) {
             InputABook(newbooks.abook[index - 1]);
             continue;
         }
-	newbooks.abook[i] = books.abook[++j];
-	}
+        newbooks.abook[i] = books.abook[++j];
+    }
 
     delete[] books.abook;
 
     books.abook = newbooks.abook;
-	books.n = books.n + 1;
+    books.n = books.n + 1;
 }
 
 
-///////////// CÃ‚U 6 /////////////
+///////////// CÂU 6 /////////////
 
-void Remove(Books &books) {
+void Remove(Books& books) {
     int year;
     cout << "Input the year: ";
     cin >> year;
@@ -156,44 +170,10 @@ void Remove(Books &books) {
             continue;
         }
         newbooks.abook[++j] = books.abook[i];
-	}
+    }
 
     delete[] books.abook;
 
     books.abook = newbooks.abook;
-	books.n = newbooks.n;
-}
-
-
-////////////////////////
-
-
-int main() {
-    Books books;
-    cout << "Input the number of books: ";
-    cin >> books.n;
-    
-    books.abook = new ABook[books.n];
-
-    cout << "\n\n\t====== INPUT BOOKS ======" << endl << endl;
-    InputBooks(books);
-
-    cout << "\n\n\t====== OUTPUT BOOKS ======" << endl << endl;
-    OutputBooks(books);
-
-    cout << "\n\n\t====== SORT BOOKS IN ASCENDING ORDER BY YEAR ======" << endl << endl;
-    Sort(books); OutputBooks(books); 
-
-    cout << "\n\n\t====== FIND THE MOST EXPENSIVE BOOK BY PAGE ======" << endl << endl;
-    Find(books);
-
-    cout << "\n\n\t====== ADD A BOOK BY INDEX ======" << endl << endl;
-    Add(books); OutputBooks(books);
-
-    cout << "\n\n\t====== REMOVE BOOKS BY YEAR ======" << endl << endl;
-    Remove(books); OutputBooks(books);
-
-    delete[] books.abook;
-
-    return 0;
+    books.n = newbooks.n;
 }
