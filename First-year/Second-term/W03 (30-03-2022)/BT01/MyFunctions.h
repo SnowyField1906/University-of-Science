@@ -1,37 +1,29 @@
 #ifndef MyFunctions_h
 #define MyFunctions_h
 
-struct ABook;
+#include <iostream>
+#include <iomanip>
+#include <string>
+#include "MyFunctions.h"
 
-struct Books;
+struct Dish; //struct dish gồm tên và giá món ăn
 
-void InputABook(ABook& abook);
+struct Serving; //struct serving gồm 1 phần ăn với n món ăn
 
-void InputBooks(Books& books);
+Dish* CreateDishArray(int n);
 
-///////////// C�U 2 /////////////
+void DeleteDishArray(Serving*& serving, int n);
 
-void OutputABook(ABook abook);
+void DeleteServingArray(Serving*& serving);
 
-void OutputBooks(Books books);
+void Increase(Serving*& serving, int& n);
 
-///////////// C�U 3 /////////////
+void Choosing(Serving*& serving, int& n, char type);
 
-void Sort(Books& books);
+void Bill(Serving*& serving, int n);
 
+void Menu();
 
-///////////// C�U 4 /////////////
-
-void Find(Books books);
-
-
-///////////// C�U 5 /////////////
-
-void Add(Books& books);
-
-
-///////////// C�U 6 /////////////
-
-void Remove(Books& books);
+void Infomation();
 
 #endif /* MyFunctions_h */

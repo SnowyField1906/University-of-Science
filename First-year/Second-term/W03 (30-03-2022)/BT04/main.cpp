@@ -1,50 +1,44 @@
 ﻿#include <iostream>
-#include <string>
+#include <cstring>
+#include <stdlib.h>
 #include "MyFunctions.h"
 
 using namespace std;
 
-struct ABook {
-    char id[8];
-    char name[51];
-    char author[51];
-    char publisher[51];
-    long price;
-    int page;
-    int year;
-};
-
-struct Books {
-    int n;
-    ABook* abook;
-};
-
 int main() {
-    Books books;
-    cout << "Input the number of books: ";
-    cin >> books.n;
+    int N = 0;
 
-    books.abook = new ABook[books.n];
+    int *array = NULL;
 
-    cout << "\n\n\t====== INPUT BOOKS ======" << endl << endl;
-    InputBooks(books);
+    char ans;
 
-    cout << "\n\n\t====== OUTPUT BOOKS ======" << endl << endl;
-    OutputBooks(books);
+    cout << endl << "\t====== INPUT ======" << endl << endl;
+    InputArray(array, N);
 
-    cout << "\n\n\t====== SORT BOOKS IN ASCENDING ORDER BY YEAR ======" << endl << endl;
-    Sort(books); OutputBooks(books);
+    cout << endl << "\t====== OUTPUT ======" << endl << endl;
+    OutputArray(array, N);
 
-    cout << "\n\n\t====== FIND THE MOST EXPENSIVE BOOK BY PAGE ======" << endl << endl;
-    Find(books);
+    cout << endl << "Do you want to sort the array in Ascending or Descending order? (A/D): ";
+    cin >> ans;
 
-    cout << "\n\n\t====== ADD A BOOK BY INDEX ======" << endl << endl;
-    Add(books); OutputBooks(books);
+    while (ans != 'A' && ans != 'D') {
+        cout << endl << "Please input \"A\" for Ascending order and \"D\" for Desending order! (A/D): ";
+        cin >> ans;
+    }
 
-    cout << "\n\n\t====== REMOVE BOOKS BY YEAR ======" << endl << endl;
-    Remove(books); OutputBooks(books);
+    if (ans == 'A') {
+        cout << endl << "\t====== SORT ASCENDING ======" << endl << endl;
+        qsort(array, N, sizeof(int), SortAsc);
+        OutputArray(array, N);
+    }
 
-    delete[] books.abook;
+    if (ans == 'D') {
+        cout << endl << "\t====== SORT DESCENDING ======" << endl << endl;
+        qsort(array, N, sizeof(int), SortDesc);
+        OutputArray(array, N);
+    }
+    
+    DeleteArray(array);
 
     return 0;
 }

@@ -1,179 +1,281 @@
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include "MyFunctions.h"
 
 using namespace std;
 
-struct ABook {
-    char id[8];
-    char name[51];
-    char author[51];
-    char publisher[51];
-    long price;
-    int page;
-    int year;
-};
+struct Dish {
+    string name;
+    int price;
+}; //struct dish gồm tên và giá món ăn
 
-struct Books {
+struct Serving {
     int n;
-    ABook* abook;
-};
+    char name;
+    Dish *dish;
+}; //struct serving gồm 1 phần ăn với n món ăn
 
 
-///////////// C�U 1 /////////////
+Dish *CreateDishArray(int n) {
+    Dish *dish = new Dish[n];
+    if (dish == NULL) {
+        return NULL;
+    }
+    return dish;
+}
 
-void InputABook(ABook& abook) {
-    cin.ignore();
-    cout << "\tInput the book's ID: "; cin.getline(abook.id, 8);
-    cout << "\tInput the book's name: "; cin.getline(abook.name, 51); cout << "\tInput the book's author: "; cin.getline(abook.author, 51);
-    cout << "\tInput the book's publisher: "; cin.getline(abook.publisher, 51);
-    cout << "\tInput the book's price: "; cin >> abook.price;
-    cout << "\tInput the book's page: "; cin >> abook.page;
-    cout << "\tInput the book's year: "; cin >> abook.year;
-    cout << endl;
-
-    bool space = false;
-    for (int i = 0; i < strlen(abook.id); i++) {
-        if (abook.id[i] == ' ') {
-            space = true;
-            break;
+void DeleteDishArray(Serving *& serving, int n) {
+    for (int i = 0; i < n; i++) {
+        if (serving[i].dish != NULL) {
+            delete[] serving[i].dish;
+            serving[i].dish = NULL;
+        }
+        else {
+            serving[i].dish = NULL;
         }
     }
-    if (space) {
-        cout << "Wrong input, please input again" << endl << endl;
-        InputABook(abook);
+}
+
+void DeleteServingArray(Serving *&serving) {
+    if (serving != NULL) {
+        delete[] serving;
+        serving = NULL;
+    }
+    else {
+        serving = NULL;
     }
 }
 
-void InputBooks(Books& books) {
-    for (int i = 0; i < books.n; i++) {
-        cout << "BOOK " << i + 1 << ": " << endl;
-        InputABook(books.abook[i]);
+void Increase(Serving*& serving, int& n) {
+    n++;
+    Serving* newserving = new Serving[n];
+    for (int i = 0; i < n - 1; i++) {
+        newserving[i] = serving[i];
     }
+    DeleteServingArray(serving);
+    serving = newserving;
 }
 
+void Choosing(Serving *&serving, int& n, char type) {
+    char answer;
 
-///////////// C�U 2 /////////////
-
-void OutputABook(ABook abook) {
-    cout << "\tThe book's ID: " << abook.id << endl;
-    cout << "\tThe book's name: " << abook.name << endl;
-    cout << "\tThe book's author: " << abook.author << endl;
-    cout << "\tThe book's publisher: " << abook.publisher << endl;
-    cout << "\tThe book's price: " << abook.price << " ngan dong" << endl;
-    cout << "\tThe book's page: " << abook.page << endl;
-    cout << "\tThe book's year: " << abook.year << endl << endl;
-}
-
-void OutputBooks(Books books) {
-    for (int i = 0; i < books.n; i++) {
-        cout << "BOOK " << i + 1 << ": " << endl;
-        OutputABook(books.abook[i]);
-    }
-}
-
-
-///////////// C�U 3 /////////////
-
-void Sort(Books& books) {
-    for (int i = books.n - 1; i >= 1; i--) {
-        for (int j = 0; j <= i - 1; j++) {
-            if (books.abook[j].year > books.abook[j + 1].year) {
-                swap(books.abook[j], books.abook[j + 1]);
+    switch (type) {
+        case 'A':
+            cout << "Imported serving type A! Do you want to order one more? (Y/N) "; cin >> answer;
+            while (answer != 'Y' && answer != 'N') {
+                cout << "Wrong input, please input again! (Y/N) "; cin >> answer;
             }
-        }
-    }
-}   
 
+            Increase(serving, n);
 
-///////////// C�U 4 /////////////
+            serving[n - 1].n = 3; serving[n - 1].dish = CreateDishArray(serving[n - 1].n);
+            serving[n - 1].name = 'A';
+            serving[n - 1].dish[0].name = "Burger"; serving[n - 1].dish[0].price = 130;
+            serving[n - 1].dish[1].name = "Drink"; serving[n - 1].dish[1].price = 130;
+            serving[n - 1].dish[2].name = "Potato"; serving[n - 1].dish[2].price = 120;
 
-void Find(Books books) {
-    int limit;
-    cout << "Input the limit: ";
-    cin >> limit;
-    cout << endl;
+            if (answer == 'Y') {
+                cout << endl << "Please input a serving type (A/B/C/D) "; cin >> type;
+                while (type != 'A' && type != 'B' && type != 'C' && type != 'D') {
+                    cout << "Wrong input, please input again! (A/B/C/D) "; cin >> type;
+                }
 
-    for (int i = books.n - 1; i >= 1; i--) {
-        for (int j = 0; j <= i - 1; j++) {
-            if (books.abook[j].price < books.abook[j + 1].price) {
-                swap(books.abook[j], books.abook[j + 1]);
+                Choosing(serving, n, type);
             }
-        }
-    }
-    bool flag = true;
-    for (int i = 0; i < books.n; i++) {
-        if (books.abook[i].page < limit) {
-            OutputABook(books.abook[i]);
-            flag = false;
+
+            else if (answer == 'N') {
+                Choosing(serving, n, 'X');
+            }
+
             break;
-        }
-    }
-    if (flag) {
-        cout << "There is no book having less than " << limit << " page(s)!" << endl;
-    }
 
-    Sort(books);
+        case 'B':
+            cout << "Imported serving type B! Do you want to order one more? (Y/N) "; cin >> answer;
+            while (answer != 'Y' && answer != 'N') {
+                cout << "Wrong input, please input again! (Y/N) "; cin >> answer;
+            }
+
+            Increase(serving, n);
+
+            serving[n - 1].n = 3; serving[n - 1].dish = CreateDishArray(serving[n - 1].n);
+            serving[n - 1].name = 'B';
+            serving[n - 1].dish[0].name = "Cheese burger"; serving[n - 1].dish[0].price = 150;
+            serving[n - 1].dish[1].name = "Drink"; serving[n - 1].dish[1].price = 130;
+            serving[n - 1].dish[2].name = "Potato"; serving[n - 1].dish[2].price = 120;
+
+            if (answer == 'Y') {
+                cout << endl << "Please input a serving type (A/B/C/D) "; cin >> type;
+                while (type != 'A' && type != 'B' && type != 'C' && type != 'D') {
+                    cout << "Wrong input, please input again! (A/B/C/D) "; cin >> type;
+                }
+
+                Choosing(serving, n, type);
+            }
+
+            else if (answer == 'N') {
+                Choosing(serving, n, 'X');
+            }
+
+            break;
+
+        case 'C':
+            cout << "Imported serving type C! Do you want to order one more? (Y/N) "; cin >> answer;
+            while (answer != 'Y' && answer != 'N') {
+                cout << "Wrong input, please input again! (Y/N) "; cin >> answer;
+            }
+
+            Increase(serving, n);
+
+            serving[n - 1].n = 3; serving[n - 1].dish = CreateDishArray(serving[n - 1].n);
+            serving[n - 1].name = 'C';
+            serving[n - 1].dish[0].name = "Chicken burger"; serving[n - 1].dish[0].price = 200;
+            serving[n - 1].dish[1].name = "Drink"; serving[n - 1].dish[1].price = 130;
+            serving[n - 1].dish[2].name = "Potato"; serving[n - 1].dish[2].price = 120;
+
+            if (answer == 'Y') {
+                cout << endl << "Please input a serving type (A/B/C/D) "; cin >> type;
+                while (type != 'A' && type != 'B' && type != 'C' && type != 'D') {
+                    cout << "Wrong input, please input again! (A/B/C/D) "; cin >> type;
+                }
+
+                Choosing(serving, n, type);
+            }
+
+            else if (answer == 'N') {
+                Choosing(serving, n, 'X');
+            }
+
+            break;
+
+        case 'D':
+            cout << "Imported serving type D! Do you want to order one more? (Y/N) "; cin >> answer;
+            while (answer != 'Y' && answer != 'N') {
+                cout << "Wrong input, please input again! (Y/N) "; cin >> answer;
+            }
+
+            Increase(serving, n);
+
+            serving[n - 1].n = 4; serving[n - 1].dish = CreateDishArray(serving[n - 1].n);
+            serving[n - 1].name = 'D';
+            serving[n - 1].dish[0].name = "Chicken burger"; serving[n - 1].dish[0].price = 200;
+            serving[n - 1].dish[1].name = "Drink"; serving[n - 1].dish[1].price = 130;
+            serving[n - 1].dish[2].name = "Potato"; serving[n - 1].dish[2].price = 120;
+            serving[n - 1].dish[3].name = "Ice cream"; serving[n - 1].dish[3].price = 160;
+
+
+            if (answer == 'Y') {
+                cout << endl << "Please input a serving type (A/B/C/D) "; cin >> type;
+                while (type != 'A' && type != 'B' && type != 'C' && type != 'D') {
+                    cout << "Wrong input, please input again! (A/B/C/D) "; cin >> type;
+                }
+
+                Choosing(serving, n, type);
+            }
+
+            else if (answer == 'N') {
+                Choosing(serving, n, 'X');
+            }
+
+            break;
+
+        default:
+            Bill(serving, n);
+        }
 }
 
-
-///////////// C�U 5 /////////////
-
-void Add(Books& books) {
-    int index;
-    cout << "Input the index: "; cin >> index;
-    while (index < 1 || index > books.n) {
-        cout << endl << "Wrong index, please input again!" << endl << endl;
-        cout << "Input the index: "; cin >> index;
-    }
-    cout << endl;
-
-    Books newbooks;
-    newbooks.abook = new ABook[books.n + 1];
-
-    int j = -1;
-    for (int i = 0; i < books.n + 1; i++) {
-        if (i == index - 1) {
-            InputABook(newbooks.abook[index - 1]);
-            continue;
+void Bill(Serving *&serving, int n) {
+    int total = 0;
+    cout << endl << "======= YOUR BILL =======" << endl << endl;
+    for (int i = 0; i < n; i++) {
+        cout << "---------TYPE " << serving[i].name << "---------" << endl;
+        for (int j = 0; j < serving[i].n; j++) {
+            cout << setw(15) << right << serving[i].dish[j].name << ": " << serving[i].dish[j].price << " JPY" << endl;
         }
-        newbooks.abook[i] = books.abook[++j];
     }
-
-    delete[] books.abook;
-
-    books.abook = newbooks.abook;
-    books.n = books.n + 1;
+    cout << "------------------------" << endl;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < serving[i].n; j++) {
+            total += serving[i].dish[j].price;
+        }
+    }
+    cout << setw(17) << right << "TOTAL PRICE: " << total << " JPY" << endl;
+    cout << setw(17) << right << "FINAL PRICE: " << total * 90 / 100 << " JPY" << endl;
 }
 
+void Menu() {
+    cout << endl << "\t\t\t      DISHES' PRICES" << endl << endl;
 
-///////////// C�U 6 /////////////
+    cout << setfill('-');
+    cout << "\t\t\t" << setw(26) << "-" << endl;
+    cout << setfill(' ');
 
-void Remove(Books& books) {
-    int year;
-    cout << "Input the year: ";
-    cin >> year;
-    cout << endl;
+    cout << "\t\t\t|" << setw(16) << right << " Dishes ";
+    cout << setw(15) << left << "| Price |" << endl;
 
-    Books newbooks;
-    newbooks.n = 0;
-    for (int i = 0; i < books.n; i++) {
-        if (books.abook[i].year >= year) {
-            newbooks.n = newbooks.n + 1;
-        }
-    }
-    newbooks.abook = new ABook[newbooks.n];
+    cout << setfill('-');
+    cout << "\t\t\t" << setw(26) << "-" << endl;
+    cout << setfill(' ');
 
-    int j = -1;
-    for (int i = 0; i < books.n; i++) {
-        if (books.abook[i].year < year) {
-            continue;
-        }
-        newbooks.abook[++j] = books.abook[i];
-    }
+    cout << "\t\t\t|" << setw(16) << right << "Burger ";
+    cout << setw(15) << left << "| 130   |" << endl;
 
-    delete[] books.abook;
+    cout << "\t\t\t|" << setw(16) << right << "Cheese burger ";
+    cout << setw(15) << left << "| 150   |" << endl;
 
-    books.abook = newbooks.abook;
-    books.n = newbooks.n;
+    cout << "\t\t\t|" << setw(16) << right << "Chicken burger ";
+    cout << setw(15) << left << "| 200   |" << endl;
+
+    cout << "\t\t\t|" << setw(16) << right << "Drink ";
+    cout << setw(15) << left << "| 130   |" << endl;
+
+    cout << "\t\t\t|" << setw(16) << right << "Potato ";
+    cout << setw(15) << left << "| 120   |" << endl;
+
+    cout << "\t\t\t|" << setw(16) << right << "Ice cream ";
+    cout << setw(15) << left << "| 160   |" << endl;
+
+    cout << setfill('-');
+    cout << "\t\t\t" << setw(26) << "-" << endl;
+    cout << setfill(' ');
+}
+
+void Infomation() {
+    cout << endl << "\t\t  CHOOSE ONE OF THE SERVING TYPES BELOW:" << endl << endl;
+
+    cout << setfill('-');
+    cout << "  " << setw(65) << "-" << endl;
+    cout << setfill(' ');
+
+    cout << "  |" << setw(5) << left << " No.";
+    cout << setw(15) << left << "| Serving Type";
+    cout << setw(43) << left << "| ADish" << left << "|" << endl;
+
+    cout << setfill('-');
+    cout << "  " << setw(65) << "-" << endl;
+    cout << setfill(' ');
+
+    cout << "  |" << setw(5) << right << "1 ";
+    cout << setw(15) << left << "|    Type A";
+    cout << setw(16) << left << "| Burger" << setw(27) << ", Drink, Potato";
+    cout << "|" << endl;
+
+    cout << "  |" << setw(5) << right << "2 ";
+    cout << setw(15) << left << "|    Type B";
+    cout << setw(16) << left << "| Cheese burger" << setw(27) << ", Drink, Potato";
+    cout << "|" << endl;
+
+    cout << "  |" << setw(5) << right << "3 ";
+    cout << setw(15) << left << "|    Type C";
+    cout << setw(43) << left << "| Chicken burger, Drink, Potato";
+    cout << "|" << endl;
+
+    cout << "  |" << setw(5) << right << "4 ";
+    cout << setw(15) << left << "|    Type D";
+    cout << setw(43) << left << "| Chicken burger, Drink, Potato, Ice cream";
+    cout << "|" << endl;
+
+    cout << setfill('-');
+    cout << "  " << setw(65) << "-" << endl;
+    cout << setfill(' ');
 }

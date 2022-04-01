@@ -1,50 +1,64 @@
-﻿#include <iostream>
-#include <string>
-#include "MyFunctions.h"
+#include <time.h>
+#include <iostream>
 
 using namespace std;
 
-struct ABook {
-    char id[8];
-    char name[51];
-    char author[51];
-    char publisher[51];
-    long price;
-    int page;
-    int year;
-};
-
-struct Books {
-    int n;
-    ABook* abook;
-};
-
 int main() {
-    Books books;
-    cout << "Input the number of books: ";
-    cin >> books.n;
+     // Hàm khởi tạo ngẫu nhiên
+    srand(time(NULL));
 
-    books.abook = new ABook[books.n];
+    // Đọc số lượng phần tử của mảng và lưu vào n1
+    cout << "Enter original array size: ";
+    int n1 = 0;
+    cin >> n1;
 
-    cout << "\n\n\t====== INPUT BOOKS ======" << endl << endl;
-    InputBooks(books);
+    // Khởi tạo động mảng a1 có n1 phần tử kiểu int
+    int *a1 = new int[n1];
+    int i;
+    for (i = 0; i < n1; i++) {
+        // Gán các phần tử trong mảng bằng 100
+        a1[i] = 100;
 
-    cout << "\n\n\t====== OUTPUT BOOKS ======" << endl << endl;
-    OutputBooks(books);
+        // Xuất các phần tử trong mảng ra màn hình
+        cout << a1[i] << " ";
+    }
 
-    cout << "\n\n\t====== SORT BOOKS IN ASCENDING ORDER BY YEAR ======" << endl << endl;
-    Sort(books); OutputBooks(books);
+    // Đọc số lượng phần tử (mới) của mảng, lưu vào n2
+    cout << "\nEnter new array size: ";
+    int n2 = 0;
+    cin >> n2;
 
-    cout << "\n\n\t====== FIND THE MOST EXPENSIVE BOOK BY PAGE ======" << endl << endl;
-    Find(books);
+    // Cấp phát lại số lượng phần tử của a1 
+    a1 = new int[n2]; 
 
-    cout << "\n\n\t====== ADD A BOOK BY INDEX ======" << endl << endl;
-    Add(books); OutputBooks(books);
+    // Nếu có nhiều phần tử hơn ban đầu, gán các phần 
+    // tử mới bằng 0. Lý do, không muốn sử dụng  
+    // các phần tử có giá trị rác.  
 
-    cout << "\n\n\t====== REMOVE BOOKS BY YEAR ======" << endl << endl;
-    Remove(books); OutputBooks(books);
+    if (n2 > n1) {
+        for (int i = 0; i < n1; i++) {
+            a1[i] = 100;
+        }
+        for (int i = n1; i < n2; i++) {
+            a1[i] = 0;
+        }
+    }
+    else {
+        for(int i = 0; i < n2; i++) {
+            a1[i] = 100; 
+        }
+    }
 
-    delete[] books.abook;
+
+    for(int i = 0; i < n2; i++) {
+        // Xuất các phần tử của mảng ra màn hình
+        cout << a1[i] << " ";
+    }
+    cout << endl;
+
+    delete [] a1;
+
+    //Kết thúc chương trình
 
     return 0;
 }

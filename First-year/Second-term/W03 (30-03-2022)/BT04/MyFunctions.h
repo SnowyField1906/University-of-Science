@@ -1,37 +1,22 @@
 #ifndef MyFunctions_h
 #define MyFunctions_h
 
-struct ABook;
+#include <iostream>
+#include <string>
+#include <stdlib.h>
+#include "MyFunctions.h"
 
-struct Books;
+int *CreateArray(int N);
 
-void InputABook(ABook& abook);
+void DeleteArray(int *&array);
 
-void InputBooks(Books& books);
+void InputArray(int *&array, int &N);
 
-///////////// C헧 2 /////////////
+void OutputArray(int *array, int N);
 
-void OutputABook(ABook abook);
+int SortAsc(const void *a, const void *b);
 
-void OutputBooks(Books books);
+int SortDesc(const void *a, const void *b);
 
-///////////// C헧 3 /////////////
-
-void Sort(Books& books);
-
-
-///////////// C헧 4 /////////////
-
-void Find(Books books);
-
-
-///////////// C헧 5 /////////////
-
-void Add(Books& books);
-
-
-///////////// C헧 6 /////////////
-
-void Remove(Books& books);
 
 #endif /* MyFunctions_h */

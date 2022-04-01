@@ -1,50 +1,44 @@
 ﻿#include <iostream>
-#include <string>
+#include <cstring>
+#include <stdlib.h>
 #include "MyFunctions.h"
 
 using namespace std;
 
-struct ABook {
-    char id[8];
-    char name[51];
-    char author[51];
-    char publisher[51];
-    long price;
-    int page;
-    int year;
+struct AStudent  {
+    char *name = new char[50];
+    int id;
+    float math;
+    float literature;
 };
 
-struct Books {
+struct Students {
     int n;
-    ABook* abook;
+    AStudent *astudent;
 };
 
 int main() {
-    Books books;
-    cout << "Input the number of books: ";
-    cin >> books.n;
+    Students students;
+    cout << "Input the number of students: ";
+    cin >> students.n;
 
-    books.abook = new ABook[books.n];
+    students.astudent = CreateArray(students.n);
 
-    cout << "\n\n\t====== INPUT BOOKS ======" << endl << endl;
-    InputBooks(books);
+    cout << "\n\n\t====== INPUT STUDENTS ======" << endl << endl;
+    InputStudents(students);
 
-    cout << "\n\n\t====== OUTPUT BOOKS ======" << endl << endl;
-    OutputBooks(books);
+    cout << "\n\n\t====== OUTPUT STUDENTS ======" << endl << endl;
+    OutputStudents(students);
 
-    cout << "\n\n\t====== SORT BOOKS IN ASCENDING ORDER BY YEAR ======" << endl << endl;
-    Sort(books); OutputBooks(books);
+    cout << "\n\n\t====== SORT STUDENTS IN ASCENDING ORDER BY NAME ======" << endl << endl;
+    qsort(students.astudent, students.n, sizeof(AStudent), SortAsc);
+    OutputStudents(students);
 
-    cout << "\n\n\t====== FIND THE MOST EXPENSIVE BOOK BY PAGE ======" << endl << endl;
-    Find(books);
+    cout << "\n\n\t====== SORT STUDENTS IN DESCENDING ORDER BY NAME ======" << endl << endl;
+    qsort(students.astudent, students.n, sizeof(AStudent), SortDesc);
+    OutputStudents(students);
 
-    cout << "\n\n\t====== ADD A BOOK BY INDEX ======" << endl << endl;
-    Add(books); OutputBooks(books);
-
-    cout << "\n\n\t====== REMOVE BOOKS BY YEAR ======" << endl << endl;
-    Remove(books); OutputBooks(books);
-
-    delete[] books.abook;
+    DeleteArray(students.astudent);
 
     return 0;
 }

@@ -1,50 +1,44 @@
 ﻿#include <iostream>
+#include <iomanip>
 #include <string>
 #include "MyFunctions.h"
 
 using namespace std;
 
-struct ABook {
-    char id[8];
-    char name[51];
-    char author[51];
-    char publisher[51];
-    long price;
-    int page;
-    int year;
-};
 
-struct Books {
+// vì em có một chút không hiểu đề nên em đã nảy ra ý tưởng nâng cấp đề lên thành
+// viết chương trình cho người dùng gọi nhiều phần ăn và xuất ra
+// {hóa đơn} với {tổng tiền} và {tiền phải trả}
+// và em vẫn đảm bảo những yêu cầu của thầy trong đề gốc ạ
+
+
+struct Dish {
+    string name;
+    int price;
+}; //struct dish gồm tên và giá món ăn
+
+struct Serving {
     int n;
-    ABook* abook;
-};
+    char name;
+    Dish *dish;
+}; //struct serving gồm 1 phần ăn với n món ăn
 
 int main() {
-    Books books;
-    cout << "Input the number of books: ";
-    cin >> books.n;
+    Menu();
+    Infomation();
+  
+    int n = 0;
+    Serving *serving = new Serving[n + 1];
 
-    books.abook = new ABook[books.n];
+    char type;
+    cout << endl << "Please input a serving type (A/B/C/D) "; cin >> type;
+    while (type != 'A' && type != 'B' && type != 'C' && type != 'D') {
+        cout << "Wrong input, please input again! (A/B/C/D) "; cin >> type;
+    }
+    Choosing(serving, n, type);
 
-    cout << "\n\n\t====== INPUT BOOKS ======" << endl << endl;
-    InputBooks(books);
-
-    cout << "\n\n\t====== OUTPUT BOOKS ======" << endl << endl;
-    OutputBooks(books);
-
-    cout << "\n\n\t====== SORT BOOKS IN ASCENDING ORDER BY YEAR ======" << endl << endl;
-    Sort(books); OutputBooks(books);
-
-    cout << "\n\n\t====== FIND THE MOST EXPENSIVE BOOK BY PAGE ======" << endl << endl;
-    Find(books);
-
-    cout << "\n\n\t====== ADD A BOOK BY INDEX ======" << endl << endl;
-    Add(books); OutputBooks(books);
-
-    cout << "\n\n\t====== REMOVE BOOKS BY YEAR ======" << endl << endl;
-    Remove(books); OutputBooks(books);
-
-    delete[] books.abook;
+    DeleteDishArray(serving, n);
+    DeleteServingArray(serving);
 
     return 0;
 }
