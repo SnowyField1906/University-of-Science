@@ -1,0 +1,12 @@
+
+
+    Directory: D:\code rides me\C\test\2017-2018
+                                                                                                                     
+20/01/2022   3:48 AM           1626 BT01.cpp                                                                                                                       
+21/01/2022   3:51 AM            813 BT02.cpp                                                                                                                       
+23/01/2022   3:50 AM           2882 BT03.cpp                                                                                                                       
+23/01/2022   3:53 AM           1293 BT04.cpp                                                                                                                       
+24/01/2022   3:54 AM              0 BT05.cpp                                                                                                                       
+26/01/2022   3:54 AM              0 list.txt                                                                                                                       
+
+
