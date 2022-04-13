@@ -1,9 +1,10 @@
 #ifndef MyFunctions_h
 #define MyFunctions_h
 
-#include <iostream>
-#include "MyFunctions.h"
+using namespace std;
 
+////////// ĐẾM KÍ TỰ //////////
 
+int Count(fstream& fin);
 
 #endif /* MyFunctions_h */

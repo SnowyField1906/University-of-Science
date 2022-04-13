@@ -1,11 +1,6 @@
 #ifndef MyFunctions_h
 #define MyFunctions_h
 
-#include <iostream>
-#include <string>
-#include <stdlib.h>
-#include "MyFunctions.h"
-
 int *CreateArray(int N);
 
 void DeleteArray(int *&array);

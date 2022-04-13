@@ -1,11 +1,6 @@
 #ifndef MyFunctions_h
 #define MyFunctions_h
 
-#include <iostream>
-#include <iomanip>
-#include <string>
-#include "MyFunctions.h"
-
 struct Dish; //struct dish gồm tên và giá món ăn
 
 struct Serving; //struct serving gồm 1 phần ăn với n món ăn

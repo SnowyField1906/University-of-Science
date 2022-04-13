@@ -1,11 +1,6 @@
 #ifndef MyFunctions_h
 #define MyFunctions_h
 
-#include <iostream>
-#include <string>
-#include <stdlib.h>
-#include "MyFunctions.h"
-
 struct AStudent;
 
 struct Students;
