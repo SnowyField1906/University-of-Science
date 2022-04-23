@@ -60,7 +60,6 @@ void OutputPolygon(Polygon *&poly2, int n) {
 }
 
 
-
 int main() {
     int n;
     cin >> n;

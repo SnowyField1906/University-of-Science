@@ -3,8 +3,9 @@
 
 using namespace std;
 
-void resize(char *&newsrc, int n) {
-    char *temp = new char[strlen(newsrc) + n];
+void resize(char *&newsrc, char*&temp, int n) {
+    delete[] temp;
+    temp = new char[strlen(newsrc) + n];
     strncpy(temp, newsrc, strlen(newsrc));
     delete[] newsrc;
     newsrc = temp;
@@ -15,8 +16,9 @@ char* replace (char*src, char*sub, char*rep) {
         return NULL;
     }
     else {
+        char *temp = new char;
         char *newsrc = new char [1];
-        size_t i, j;
+        int i, j;
         for (i = 0; i < strlen(src); i++) {
             bool flag = true;
             for (j = 0; j < strlen(sub); j++) {
@@ -26,12 +28,12 @@ char* replace (char*src, char*sub, char*rep) {
                 }
             }
             if (flag) {
-                resize(newsrc, strlen(rep));
+                resize(newsrc, temp, strlen(rep));
                 strcat(newsrc, rep);
                 i += j - 1;
             }
             else {
-                resize(newsrc, 1);
+                resize(newsrc, temp, 1);
                 newsrc[strlen(newsrc)] = src[i];
             }
         }
