@@ -1,4 +1,4 @@
-#inclue "MyFunctions.h"
+#include "MyFunctions.h"
 #include <math.h>
 
 void nhapSoDuong_1(int &n) {
